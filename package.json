@@ -1,0 +1,28 @@
+{
+  "name": "payroll",
+  "version": "1.0.0",
+  "description": "Employee Payroll System",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dhelio77/payroll.git"
+  },
+  "keywords": [
+    "payroll",
+    "myob"
+  ],
+  "author": "Rodelio Ancheta",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dhelio77/payroll/issues"
+  },
+  "homepage": "https://github.com/dhelio77/payroll#readme",
+  "dependencies": {
+    "csv": "^3.1.0",
+    "csv-parse": "^3.0.0",
+    "fs": "0.0.1-security"
+  }
+}
