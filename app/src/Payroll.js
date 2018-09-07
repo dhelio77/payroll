@@ -53,7 +53,6 @@ class Payroll {
    */
   getTax(annualSalary, params) {
     let [constant, percent, over] = params
-    console.log(`${annualSalary}:${constant}:${percent}:${over}`)
     return Math.round((constant + (annualSalary - over) * (percent / 100)) / 12)
   }
 }

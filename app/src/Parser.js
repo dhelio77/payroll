@@ -8,7 +8,7 @@ class Parser {
   constructor(inputFile) {
     this.inputFile = inputFile
     this.options = config.parseOptions
-    this.payroll = require('./Employee')()
+    this.employee = require('./Employee')()
   }
   process() {
     let self = this
@@ -16,34 +16,37 @@ class Parser {
     return new Promise((resolve, reject) => {
       let parser = parse(self.options, (err, data) => {
         if (err) {
-            console.log(`<<< Error in processing csv file: ${err}`)
-            reject(err)
+          console.log(`<<< Error in processing csv file: ${err}`)
+          reject(err)
         } else {
-            /**
-             * When all fields are available then process them.
-             * Note: There is no header so there's no line to skip thus line starts at 0
-             */
-            data.forEach((line) => {
+          /**
+           * Process each record when all fields are available
+           * Note: There is no header so there's no line to skip thus line starts at 0
+           */
+          data.forEach((line) => {
             /**
              * Create employee object out of parsed fields
              */
-            self.employee = {
-                "firstName": line[0],
-                "lastName": line[1],
-                "annualSalary": line[2],
-                "superRate": line[3].substring(0, line[3].indexOf('%')),
-                "payPeriod": line[4]
+            let employee = {
+              "firstName": line[0],
+              "lastName": line[1],
+              "annualSalary": line[2],
+              "superRate": line[3].substring(0, line[3].indexOf('%')),
+              "payPeriod": line[4]
             }
-            self.payroll.process(self.employee)
-                .then((result) => {
-                    console.log(`<<< result: ${JSON.stringify(result)}`)
-                    resolve('200')
-                })
-                .catch((error) => {
-                    console.error(`<<< error: ${error}`)
-                    reject('500')
-                })
-            })
+            /**
+             * This calls employee processor to calculate payroll
+             */
+            self.employee.process(employee)
+              .then((result) => {
+                console.log(`<<< result: ${JSON.stringify(result)}`)
+                resolve('200')
+              })
+              .catch((error) => {
+                console.error(`<<< error: ${error}`)
+                reject('500')
+              })
+          })
         }
       })
       /**
