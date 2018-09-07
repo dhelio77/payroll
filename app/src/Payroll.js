@@ -5,11 +5,21 @@ class Payroll {
     this.config = require('../config/config')
   }
 
+  /**
+   * This function accepts the annual salary and calculates the gross income.
+   * @param {*} annualSalary 
+   */
   calculateGrossIncome(annualSalary) {
     let self = this
     return Math.round(annualSalary / self.config.monthsInAYear)
   }
 
+  /**
+   * This function accepts the annual salary and calculates the income tax.
+   * Checks the salary to determine the tax bracket.
+   * Note: The tax bracket is configurable and set in the config file.
+   * @param {*} annualSalary 
+   */
   calculateIncomeTax(annualSalary) {
     let self = this
     let taxParam = self.config.tax
@@ -26,11 +36,21 @@ class Payroll {
     }
   }
 
+  /**
+   * This function accepts both gross income and super rate and returns the super amount.
+   * @param  {...any} params 
+   */
   calculateSuper(...params) {
     let [grossIncome, superRate] = params
     return Math.round(grossIncome * (superRate / 100))
   }
 
+  /**
+   * This function is the helper function of the calculateIncomeTax function.
+   * This function accepts the annual salary, tax constant, percent and over.
+   * @param {*} annualSalary 
+   * @param {*} params 
+   */
   getTax(annualSalary, params) {
     let [constant, percent, over] = params
     console.log(`${annualSalary}:${constant}:${percent}:${over}`)
