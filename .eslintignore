@@ -1,0 +1,4 @@
+public/contrib/*
+files/*
+node_modules/*
+.vscode/*
