@@ -10,20 +10,27 @@ class Employee {
    * 2. income tax
    * 3. net income
    * 4. super
-   * @param {*} employee 
+   * @param {*} payroll 
    */
-  process(employee) {
+  process(payroll) {
     let self = this
-    console.log(`<<< Processing Employee Record...`)
     return new Promise((resolve, reject) => {
       let paysummary = {}
-      paysummary['name'] = `${employee.firstName} ${employee.lastName}`
-      paysummary['payPeriod'] = `${employee.startDate}`
-      paysummary['grossIncome'] = self.payroll.calculateGrossIncome(employee.annualSalary)
-      paysummary['incomeTax'] = self.payroll.calculateIncomeTax(employee.annualSalary)
-      paysummary['netIncome'] = paysummary['grossIncome'] - paysummary['incomeTax']
-      paysummary['super'] = self.payroll.calculateSuper(paysummary['grossIncome'], employee.superRate)
-      resolve(paysummary)
+      let error = null
+      try {
+        paysummary['name'] = `${payroll.firstName} ${payroll.lastName}`
+        paysummary['payPeriod'] = `${payroll.payPeriod}`
+        paysummary['grossIncome'] = self.payroll.calculateGrossIncome(payroll.annualSalary)
+        paysummary['incomeTax'] = self.payroll.calculateIncomeTax(payroll.annualSalary)
+        paysummary['netIncome'] = paysummary['grossIncome'] - paysummary['incomeTax']
+        paysummary['super'] = self.payroll.calculateSuper(paysummary['grossIncome'], payroll.superRate.substring(0, payroll.superRate.indexOf('%')))
+        resolve(paysummary)
+      } catch(err) {
+        error = new Error()
+        error.code = 500
+        error.desc = `Error in payroll processing`
+        reject(error)
+      }
     })
   }
 }
