@@ -28,7 +28,7 @@ class Employee {
       } catch(err) {
         error = new Error()
         error.code = 500
-        error.desc = `Error in payroll processing`
+        error.desc = 'ERROR'
         reject(error)
       }
     })
