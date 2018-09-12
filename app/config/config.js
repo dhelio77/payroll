@@ -12,12 +12,14 @@ const configSettings = {
       'auto_parse': true
     },
     'monthsInAYear': 12,
-    'tax': {
-      'bracket2': [0, 19, 18200],
-      'bracket3': [3572, 32.5, 37000],
-      'bracket4': [19822, 37, 87000],
-      'bracket5': [54232, 45, 180000]
-    },
+    'percentage': 100,
+    'taxBracket': [
+      { 'to': 18200, 'baseAmt': 0, 'percent': 0, 'over': 0 },
+      { 'to': 37000, 'baseAmt': 0, 'percent': 19, 'over': 18200 },
+      { 'to': 87000, 'baseAmt': 3572, 'percent': 32.5, 'over': 37000 },
+      { 'to': 180000, 'baseAmt': 19822, 'percent': 37, 'over': 87000 },
+      { 'to': Infinity, 'baseAmt': 54232, 'percent': 45, 'over': 180000 }
+    ],
     'regex': {
       'haspercentage': /\d%$/
     }

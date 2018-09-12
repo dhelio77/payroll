@@ -5,13 +5,14 @@ const path = require('path')
 const parse = require('csv-parse')
 const config = require('../config/config')
 const util = require('./Utility')()
+// const employee = require('./Employee')()
 
 class Parser {
   constructor(inputFile) {
     this.inputFile = inputFile
     this.parseOptions = config.parseOptions
-    this.employee = require('./Employee')()
     this.validator = require('./Validator')()
+    this.employee = require('./Employee')()
     this.payrollfile = fs.createWriteStream(path.resolve(path.join(path.dirname(this.inputFile), config.files.outputfile)), { 'flag': 'a' })
     this.errorfile = fs.createWriteStream(path.resolve(path.join(path.dirname(this.inputFile), config.files.errorfile)), { 'flag': 'a' })
   }
@@ -23,7 +24,6 @@ class Parser {
   process() {
     let self = this
     let parser = null
-    let summary = null
     console.log(`<<< Parsing CSV File...`)
     return new Promise((resolve, reject) => {
       let ctr = 0
@@ -51,46 +51,29 @@ class Parser {
               "payPeriod": line[4].toString()
             }
             console.log(`<<< payroll record: ${JSON.stringify(payroll)}`)
+            /**
+             * This function validates every fields in the file.
+             * If a field is invalid, the record will not be process for payroll calculation and error file will be generated.
+             */
             self.validator.validateFields(payroll)
               .then((result) => {
-                // if (result && result.fault && result.fault.length > 0) {
-                //   console.log(`<<< Invalid fields: ${JSON.stringify(result.fault)}`)
-                //   util.writeToFile(JSON.stringify(result.fault), self.errorfile)
-                // } else {
-                //   /**
-                //    * This calls employee processor to calculate payroll
-                //    */
-                //   self.employee.process(payroll)
-                //     .then((paysummary) => {
-                //       console.log(`<<< Payroll summary result: ${JSON.stringify(paysummary)}`)
-                //       util.writeToCsv(paysummary, self.payrollfile)
-                //       resolve(200)
-                //     })
-                //     .catch((error) => {
-                //       console.error(`<<< Error in processing payroll summary: ${JSON.stringify(error)}`)
-                //       reject(error)
-                //     })
-                // }
-                if (result && result.code === 200) {
+                if (result && result.fault && result.fault.ctr && result.fault.ctr !== undefined) {
+                  console.log(`<<< Invalid fields: ${JSON.stringify(result.fault)}`)
+                  util.writeToFile(JSON.stringify(result.fault), self.errorfile)
+                } else {
                   /**
                    * This calls employee processor to calculate payroll
                    */
+                  // this.processEmployee(payroll)
                   self.employee.process(payroll)
                     .then((paysummary) => {
                       console.log(`<<< Payroll summary result: ${JSON.stringify(paysummary)}`)
                       util.writeToCsv(paysummary, self.payrollfile)
-                      resolve(200)
+                      resolve(paysummary)
                     })
-                    .catch((error) => {
-                      console.error(`<<< Error in processing payroll summary: ${JSON.stringify(error)}`)
-                      reject(error)
-                    })
-                } else {
-                  console.log(`<<< Invalid fields: ${JSON.stringify(result.fault)}`)
-                  util.writeToFile(JSON.stringify(result.fault), self.errorfile)
                 }
               })
-         })
+          })
         }
       })
       /**
@@ -99,6 +82,23 @@ class Parser {
       fs.createReadStream(self.inputFile).pipe(parser);
     })
   }
+  /**
+   * This calls employee processor to calculate payroll
+   */
+  // processEmployee = async (payroll) => {
+  //   return new Promise((resolve, reject) => {
+  //     await employee.process(payroll)
+  //       .then((paysummary) => {
+  //         console.log(`<<< Payroll summary result: ${JSON.stringify(paysummary)}`)
+  //         util.writeToCsv(paysummary, self.payrollfile)
+  //         resolve(paysummary)
+  //       })
+  //       .catch((error)=>{
+  //         reject(err)
+  //         console.err()
+  //       })
+  //   })
+  // }
 }
 
 module.exports = (_inputFile) => {

@@ -22,3 +22,6 @@ console.log(errors === null)
 console.log(`<<< testing object isEmpty`)
 let obj = {}
 console.log(!Object.keys(obj).length === 0)
+
+console.log(`<<< testing Infinity`)
+console.log(Infinity)

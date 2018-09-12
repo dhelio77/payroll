@@ -14,9 +14,8 @@ class Employee {
    */
   process(payroll) {
     let self = this
+    let paysummary = {}
     return new Promise((resolve, reject) => {
-      let paysummary = {}
-      let error = null
       try {
         paysummary['name'] = `${payroll.firstName} ${payroll.lastName}`
         paysummary['payPeriod'] = `${payroll.payPeriod}`
@@ -25,10 +24,7 @@ class Employee {
         paysummary['netIncome'] = paysummary['grossIncome'] - paysummary['incomeTax']
         paysummary['super'] = self.payroll.calculateSuper(paysummary['grossIncome'], payroll.superRate.substring(0, payroll.superRate.indexOf('%')))
         resolve(paysummary)
-      } catch(err) {
-        error = new Error()
-        error.code = 500
-        error.desc = 'ERROR'
+      } catch (error) {
         reject(error)
       }
     })

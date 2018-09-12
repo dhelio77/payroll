@@ -3,13 +3,9 @@
 const fs = require('fs')
 const validator = require('validator')
 const config = require('../config/config')
-// const errorfile = fs.createWriteStream('payroll.err', { 'flag': 'a' })
-// const util = require('./Utility')
 
 class Validator {
-  constructor() {
-
-  }
+  constructor() { }
   /**
    * This function accepts the filepath as a string and checks if it's valid.
    * @param {*} filepath 
@@ -33,8 +29,8 @@ class Validator {
    * @param {*} payroll 
    */
   validateFields(payroll) {
-    let error = null
     let result = {}
+    let fault = {}
     return new Promise((resolve, reject) => {
       try {
         let firstNameVal = validator.isAlpha(payroll.firstName) ? true : false
@@ -42,26 +38,14 @@ class Validator {
         let annualSalaryVal = validator.isNumeric(payroll.annualSalary) && Number(payroll.annualSalary) > 0 ? true : false
         let superRate = payroll.superRate.substring(0, payroll.superRate.indexOf('%'))
         let superRateVal = validator.isNumeric(superRate) && config.regex['haspercentage'].test(payroll.superRate) && (Number(superRate) >= 0 && Number(superRate) <= 50) ? true : false
-        if (firstNameVal && lastNameVal && annualSalaryVal && superRateVal) {
-          result.code = 200
-          result.desc = 'All fields are valid'
-          resolve(result)
-        } else {
-          result.code = 401
-          result.desc = 'All or some fields are not valid'
-          let fault = {}
-          fault.ctr = payroll.ctr
-          if (!firstNameVal) { fault.invalidFirstname = `${payroll.firstName}` }
-          if (!lastNameVal) { fault.invalidLastname = `${payroll.lastName}` }
-          if (!annualSalaryVal) { fault.invalidAnnualSalary = `${payroll.annualSalary}` }
-          if (!superRateVal) { fault.invalidSuperRate = `${payroll.superRate}` }
-          result.fault = fault
-          resolve(result)
-        }
-      } catch (err) {
-        error = new Error('Validator')
-        error.code = 500
-        error.desc = 'ERROR'
+        fault.ctr = (!firstNameVal || !lastNameVal || !annualSalaryVal || !superRateVal) ? payroll.ctr : ''
+        if (!firstNameVal) { fault.invalidFirstname = payroll.firstName }
+        if (!lastNameVal) { fault.invalidLastname = payroll.lastName }
+        if (!annualSalaryVal) { fault.invalidAnnualSalary = payroll.annualSalary }
+        if (!superRateVal) { fault.invalidSuperRate = payroll.superRate }
+        result.fault = fault
+        resolve(result)
+      } catch (error) {
         reject(error)
       }
     })

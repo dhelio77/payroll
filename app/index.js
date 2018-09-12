@@ -8,8 +8,8 @@ const validator = require('./src/Validator')()
 
 async function myob() {
   try {
-    let validate = await validator.validateFile(filepath)
-    let parse = await parser.process(filepath)
+    await validator.validateFile(filepath)
+    await parser.process(filepath)
   } catch (error) {
     console.log(`<<< ERROR: ${error}`)
   } 
