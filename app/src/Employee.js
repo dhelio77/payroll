@@ -25,6 +25,7 @@ class Employee {
         paysummary['super'] = self.payroll.calculateSuper(paysummary['grossIncome'], payroll.superRate.substring(0, payroll.superRate.indexOf('%')))
         resolve(paysummary)
       } catch (error) {
+        log.error(`<<< ERROR: ${error}`)
         reject(error)
       }
     })

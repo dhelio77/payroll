@@ -8,5 +8,5 @@ const asyncFunc = async () => {
 
 (async () => {
   const result = await asyncFunc();
-  console.log(result); 
+  log.info(result); 
 })();

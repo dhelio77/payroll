@@ -5,7 +5,11 @@ const configSettings = {
     'files': {
       'inputfile': '/files/payroll.csv',
       'outputfile': '/payroll.out',
-      'errorfile': '/payroll.err'
+      'faultyfields': '/payroll.invalid',
+      'loggerfile': '/payroll.log',
+      'errorfile': '/payroll.err',
+      'inputfileCtr': 'ctr',
+      'inputfileFields': ['firstName', 'lastName', 'annualSalary', 'superRate', 'payPeriod']
     },
     'parseOptions': {
       'delimiter': ',',
@@ -22,6 +26,9 @@ const configSettings = {
     ],
     'regex': {
       'haspercentage': /\d%$/
+    },
+    'writeStreamOptions': {
+      'flag': 'a'
     }
   }
 }

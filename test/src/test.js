@@ -1,27 +1,38 @@
 'use strict'
 
-console.log(`<<< testing regex: haspercentage`)
+log.info(`<<< testing regex: haspercentage`)
 const config = require('../../app/config/config')['regex']
 const str1 = '1%'
-console.log(config.haspercentage.test(str1))
+log.info(config.haspercentage.test(str1))
 
-console.log(`<<< testing validator npm`)
+log.info(`<<< testing validator npm`)
 const validator = require('validator')
 let name = 'Rodelio3'
 let numeric1 = '123A'
 let numeric2 = '-123'
-console.log(validator.isAlpha(name))
-console.log(validator.isNumeric(numeric1))
-console.log(validator.isNumeric(numeric2))
+log.info(validator.isAlpha(name))
+log.info(validator.isNumeric(numeric1))
+log.info(validator.isNumeric(numeric2))
 
-console.log(`<<< testing length`)
+log.info(`<<< testing length`)
 let errors = {}
 errors.firstName = 'Invalid'
-console.log(errors === null)
+log.info(errors === null)
 
-console.log(`<<< testing object isEmpty`)
+log.info(`<<< testing object isEmpty`)
 let obj = {}
-console.log(!Object.keys(obj).length === 0)
+log.info(!Object.keys(obj).length === 0)
 
-console.log(`<<< testing Infinity`)
-console.log(Infinity)
+log.info(`<<< testing Infinity`)
+log.info(Infinity)
+
+log.info(`<<< testing array`)
+let payroll = {}
+let fields = ['firstName', 'lastName', 'annualSalary', 'superRate', 'payPeriod']
+log.info(fields.length)
+payroll.ctr = 1
+for (let p = 0; p < fields.length; p++) {
+  log.info(fields[p])
+  payroll.fields[p] = data[p]
+}
+log.info(JSON.stringify(payroll))

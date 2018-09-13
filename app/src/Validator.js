@@ -14,6 +14,7 @@ class Validator {
     return new Promise((resolve, reject) => {
       fs.stat(filepath, (err, file) => {
         if (err) {
+          log.error(`<<< ERROR: ${err}`)
           reject(err)
         }
         resolve(file)
@@ -46,6 +47,7 @@ class Validator {
         result.fault = fault
         resolve(result)
       } catch (error) {
+        log.error(`<<< ERROR: ${error}`)
         reject(error)
       }
     })

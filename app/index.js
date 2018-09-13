@@ -6,12 +6,12 @@ const filepath = path.resolve(path.join(__dirname, config.files.inputfile))
 const parser = require('./src/Parser')(filepath)
 const validator = require('./src/Validator')()
 
-async function myob() {
+let myob = async () => {
   try {
     await validator.validateFile(filepath)
     await parser.process(filepath)
   } catch (error) {
-    console.log(`<<< ERROR: ${error}`)
+    log.error(`<<< ERROR: ${error}`)
   } 
 }
 myob()
