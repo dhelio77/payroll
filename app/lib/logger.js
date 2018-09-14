@@ -4,7 +4,7 @@ const env = process.env.APP_ENV || 'local'
 const config = require('../config/config')
 
 /**
- * handles successful and error logs
+ * handles successful logs and error logs
  */
 let filelog = new winston.transports.DailyRotateFile({
     name: 'log-daily-rotate-file'
@@ -20,6 +20,9 @@ let filelog = new winston.transports.DailyRotateFile({
     , tailable: true
     , zippedArchive: true
 })
+/**
+ * handles error logs
+ */
 let errorlog = new winston.transports.File({
     name: 'log-error-file'
     , filename: `./logs/${config.files.errorfile}`
@@ -32,6 +35,9 @@ let errorlog = new winston.transports.File({
     , tailable: true
     , zippedArchive: false
 })
+/**
+ * handles console logs
+ */
 let consolelog = new winston.transports.Console({
     name: 'log-console'
     , level: env === 'local' ? 'info' : 'debug'
@@ -45,7 +51,7 @@ let consolelog = new winston.transports.Console({
 let logger = (winston.createLogger)({
     transports: [
         filelog
-        // , consolelog
+        , consolelog
         , errorlog
     ],
     exceptionHandlers: [

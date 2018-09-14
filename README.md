@@ -10,7 +10,7 @@ When supplied employee details:
   
   The program should generate pay slip information with name, pay period, gross income, income tax, net income and super.
 
-The calculation details will be the following:
+# The calculation details will be the following:
 • pay period = per calendar month  
 • gross income = annual salary / 12 months  
 • income tax = based on the tax table provided below  

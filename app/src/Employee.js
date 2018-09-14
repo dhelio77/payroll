@@ -1,8 +1,11 @@
 'use strict'
 
+const config = require('../config/config')
+
 class Employee {
   constructor() {
     this.payroll = require('./Payroll')()
+    this.summary = config.files.paySummaryFields
   }
   /**
    * This function process the call to calculate the payroll fields:
@@ -15,19 +18,14 @@ class Employee {
   process(payroll) {
     let self = this
     let paysummary = {}
-    return new Promise((resolve, reject) => {
-      try {
-        paysummary['name'] = `${payroll.firstName} ${payroll.lastName}`
-        paysummary['payPeriod'] = `${payroll.payPeriod}`
-        paysummary['grossIncome'] = self.payroll.calculateGrossIncome(payroll.annualSalary)
-        paysummary['incomeTax'] = self.payroll.calculateIncomeTax(payroll.annualSalary)
-        paysummary['netIncome'] = paysummary['grossIncome'] - paysummary['incomeTax']
-        paysummary['super'] = self.payroll.calculateSuper(paysummary['grossIncome'], payroll.superRate.substring(0, payroll.superRate.indexOf('%')))
-        resolve(paysummary)
-      } catch (error) {
-        log.error(`<<< ERROR: ${error}`)
-        reject(error)
-      }
+    return new Promise((resolve) => {
+      paysummary[`${self.summary.name}`] = `${payroll.firstName} ${payroll.lastName}`
+      paysummary[`${self.summary.payPeriod}`] = `${payroll.payPeriod}`
+      paysummary[`${self.summary.grossIncome}`] = self.payroll.calculateGrossIncome(payroll.annualSalary)
+      paysummary[`${self.summary.incomeTax}`] = self.payroll.calculateIncomeTax(payroll.annualSalary)
+      paysummary[`${self.summary.netIncome}`] = paysummary['grossIncome'] - paysummary['incomeTax']
+      paysummary[`${self.summary.super}`] = self.payroll.calculateSuper(paysummary['grossIncome'], payroll.superRate.substring(0, payroll.superRate.indexOf('%')))
+      resolve(paysummary)
     })
   }
 }

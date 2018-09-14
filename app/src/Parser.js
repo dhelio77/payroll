@@ -10,7 +10,7 @@ const log = require('../lib/logger')
 class Parser {
   constructor(inputFile) {
     this.inputFile = inputFile
-    this.parseOptions = config.parseOptions
+    this.parserOptions = config.parserOptions
     this.file = config.files
     this.writeStreamOptions = config.writeStreamOptions
     this.validator = require('./Validator')()
@@ -23,13 +23,13 @@ class Parser {
    * 1. It validates every fields
    * 2. Calls the Employee instance that calculates the payroll 
    */
-  async process() {
+  process() {
     let self = this
     let parser = null
     log.info(`<<< Parsing CSV File...`)
     return new Promise((resolve, reject) => {
       let ctr = 0
-      parser = parse(self.parseOptions, (err, data) => {
+      parser = parse(self.parserOptions, (err, data) => {
         if (err) {
           log.error(`<<< Error in processing csv file: ${err}`)
           reject(err)

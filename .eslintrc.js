@@ -1,16 +1,15 @@
 module.exports = {
-  "parseOptions": {
-    "ecmaVersion": "6",
-    "sourceType": "module"
+  'parserOptions': {
+    'ecmaVersion': 8,
+    'sourceType': 'module'
   },
-  "env": {
-    "node": true,
-    "es6": true
+  'env': {
+    'node': true,
+    'es6': true
   },
-  "rules": {
-    "no-empty": "error",
-    "no-multiple-empty-lines": "warn",
-    "no-var": "error",
-    "prefer-const": "on"
+  'extends': 'eslint:recommended',
+  'rules': {
+    'no-multiple-empty-lines': 'warn',
+    'no-var': 'error'
   }
 }

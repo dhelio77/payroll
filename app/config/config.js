@@ -3,15 +3,24 @@
 const configSettings = {
   'local': {
     'files': {
-      'inputfile': '/files/payroll.csv',
+      'filebase': 'files',
+      'inputfile': '/payroll.csv',
       'outputfile': '/payroll.out',
       'faultyfields': '/payroll.invalid',
       'loggerfile': '/payroll.log',
       'errorfile': '/payroll.err',
       'inputfileCtr': 'ctr',
-      'inputfileFields': ['firstName', 'lastName', 'annualSalary', 'superRate', 'payPeriod']
+      'inputfileFields': ['firstName', 'lastName', 'annualSalary', 'superRate', 'payPeriod'],
+      'paySummaryFields': {
+        'name': 'name',
+        'payPeriod': 'payPeriod',
+        'grossIncome': 'grossIncome',
+        'incomeTax': 'incomeTax',
+        'netIncome': 'netIncome',
+        'super': 'super'
+      }
     },
-    'parseOptions': {
+    'parserOptions': {
       'delimiter': ',',
       'auto_parse': true
     },
