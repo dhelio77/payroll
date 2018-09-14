@@ -18,8 +18,7 @@ describe('Employee Test', function () {
         .then((paysummary) => {
           paysummary.should.have.properties(paysummaryFields)
         })
-        .catch((error) => { })
+        .catch(() => { })
     })
-
   })
 })

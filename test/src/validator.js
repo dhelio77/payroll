@@ -35,7 +35,7 @@ describe('Validator Test', function () {
         .then((result) => {
           result.should.not.be.eql({"fault":{"ctr":0}}, 'Some or all fields are invalid')
         })
-        .catch((error) => { })
+        .catch(() => { })
     })
 
     it('should return invalid for payload with faulty fields', function () {
@@ -51,7 +51,7 @@ describe('Validator Test', function () {
         .then((result) => {
           result.should.be.eql({"fault":{"ctr":1}}, 'Some or all fields are invalid')
         })
-        .catch((error) => { })
+        .catch(() => { })
     })
   })
 })

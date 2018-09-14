@@ -6,7 +6,8 @@
   "scripts": {
     "start": "export APP_ENV=local && node app/index",
     "eslint": "eslint .",
-    "test": "cross-env DEBUG=payroll:* mocha"
+    "test": "cross-env DEBUG=payroll:* mocha",
+    "pretest": "npm run eslint"
   },
   "repository": {
     "type": "git",
